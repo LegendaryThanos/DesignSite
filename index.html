@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCrafters Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Space+Grotesk&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1A1D3E, #8B5CF6, #6366F1);
+            color: #FFFFFF;
+            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
+        }
+        body.dark-mode { background: linear-gradient(135deg, #0F1126, #5B3A9B); color: #E5E7EB; }
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px; background: rgba(26, 29, 62, 0.8); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center; z-index: 10;
+        }
+        nav ul { list-style: none; display: flex; gap: 25px; }
+        nav ul li a { color: #FFFFFF; text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; position: relative; transition: color 0.3s; }
+        nav ul li a::after { content: ''; position: absolute; width: 0; height: 2px; background: #8B5CF6; bottom: -5px; left: 0; transition: width 0.3s; }
+        nav ul li a:hover::after { width: 100%; }
+        .theme-toggle, .burger { background: none; border: none; color: #FFFFFF; font-size: 1.5rem; cursor: pointer; transition: transform 0.3s; }
+        .theme-toggle:hover { transform: rotate(360deg); }
+        .burger { display: none; font-size: 2rem; }
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            padding: 20px; position: relative; overflow: hidden;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(135deg, rgba(26, 29, 62, 0.9), rgba(139, 92, 246, 0.9));
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600') no-repeat center/cover; opacity: 0.2; z-index: -1;
+            animation: zoomParallax 20s infinite;
+            z-index: -1;
+        }
+        @keyframes zoomIn { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes zoomParallax {
+            0% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.1) translateY(-20px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+        .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 4rem; text-shadow: 0 0 15px rgba(139, 92, 246, 0.8); animation: fadeIn 2s ease-in; }
+        .hero p { font-size: 1.3rem; margin: 20px 0; }
+        .cta-btn { padding: 15px 40px; font-size: 1.2rem; background: #8B5CF6; border: none; border-radius: 50px; color: #FFFFFF; cursor: pointer; transition: all 0.3s; }
+        .cta-btn:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(139, 92, 246, 0.7); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        section { padding: 80px 20px; text-align: center; }
+        section h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2.8rem; margin-bottom: 40px; }
+        .gallery-grid, .portfolio-grid, .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto; }
+        .gallery-card, .portfolio-card, .tool-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border-radius: 15px; padding: 20px; transition: all 0.4s; }
+        .gallery-card:hover, .portfolio-card:hover, .tool-card:hover { transform: translateY(-15px) rotate(3deg); box-shadow: 0 15px 30px rgba(139, 92, 246, 0.6); }
+        .gallery-card img, .portfolio-card img { width: 100%; border-radius: 10px; }
+        .learn-grid { display: flex; gap: 30px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+        .learn-card { background: rgba(255, 255, 255, 0.15); border-radius: 15px; padding: 20px; width: 300px; transition: all 0.3s; }
+        .learn-card:hover { transform: scale(1.05); }
+        .community-feed { max-width: 800px; margin: 0 auto; }
+        .post { background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: left; }
+        .upload-btn { padding: 10px 20px; background: #8B5CF6; border: none; border-radius: 50px; color: #FFFFFF; cursor: pointer; margin-top: 20px; }
+        @media (max-width: 768px) {
+            nav ul { display: none; position: fixed; top: 60px; left: 0; width: 100%; background: rgba(26, 29, 62, 0.9); flex-direction: column; padding: 20px; }
+            nav ul.active { display: flex; }
+            .burger { display: block; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            clip-path: polygon(0 100vh, 100% 100vh, 100% 100%, 0 100%);
+            animation: showParticles 1s ease-out forwards;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        .gallery-card, .portfolio-card, .tool-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+
+        .cta-btn {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #8B5CF6;
+        }
+
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, rgba(139, 92, 246, 0) 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .cta-btn:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating { animation: float 6s ease-in-out infinite; }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .tool-card {
+            text-decoration: none;
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            background: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        .tool-icon {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 15px;
+        }
+
+        @keyframes showParticles {
+            to {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+
+        section:not(.hero) {
+            position: relative;
+            z-index: 1;
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="content-wrapper">
+        <nav>
+            <button class="burger" onclick="toggleMenu()">☰</button>
+            <ul id="nav-menu">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#gallery">Галерея</a></li>
+                <li><a href="#learn">Обучение</a></li>
+                <li><a href="#portfolio">Портфолио</a></li>
+                <li><a href="#community">Сообщество</a></li>
+                <li><a href="#tools">Инструменты</a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
+        </nav>
+
+        <section id="home" class="hero">
+            <h1>Создавай будущее веб-дизайна</h1>
+            <p>Платформа для вдохновения, обучения и развития.</p>
+            <button class="cta-btn">Вдохновиться прямо сейчас</button>
+        </section>
+
+        <section id="gallery" class="gallery">
+            <h2>Галерея вдохновения</h2>
+            <div class="gallery-grid">
+                <div class="gallery-card"><img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Minimal Landing"><p>Minimal Landing</p></div>
+                <div class="gallery-card"><img src="https://images.unsplash.com/photo-1505904267569-2c9e4cb421bd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Neon Design"><p>Neon Design</p></div>
+                <div class="gallery-card"><img src="https://images.unsplash.com/photo-1563983424428-96451883839c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Brutalist Site"><p>Brutalist Site</p></div>
+            </div>
+        </section>
+
+        <section id="learn" class="learn">
+            <h2>Обучение</h2>
+            <div class="learn-grid">
+                <div class="learn-card"><h3>Курс: Основы UI/UX</h3><p>Изучите принципы дизайна интерфейсов за 4 недели.</p></div>
+                <div class="learn-card"><h3>Туториал: Анимации CSS</h3><p>Создавайте плавные эффекты без JavaScript.</p></div>
+                <div class="learn-card"><h3>Статья: Тренды 2025</h3><p>Что ждёт веб-дизайн в будущем?</p></div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="portfolio">
+            <h2>Портфолио</h2>
+            <p>Загрузите свои работы, чтобы поделиться ими с сообществом.</p>
+            <input type="file" id="imageUpload" accept="image/*" multiple style="display: none;">
+            <button class="upload-btn" onclick="document.getElementById('imageUpload').click()">Добавить картинку</button>
+            <div class="portfolio-grid" id="portfolioGrid"></div>
+        </section>
+
+        <section id="community" class="community">
+            <h2>Сообщество</h2>
+            <div class="community-feed">
+                <div class="post">
+                    <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Avatar" style="width: 50px; border-radius: 50%;">
+                    <h3>Мария Волкова</h3>
+                    <p>Только что завершила проект по редизайну сайта для местной кофейни! Использовала новые принципы минимализма и нейроморфизма. Что думаете? <a href="#">Посмотреть на Behance</a></p>
+                </div>
+                <div class="post">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar" style="width: 50px; border-radius: 50%;">
+                    <h3>Дмитрий Соколов</h3>
+                    <p>Ребята, кто работал с Figma Auto Layout? Поделитесь опытом использования для адаптивного дизайна.</p>
+                </div>
+                <div class="post">
+                    <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Avatar" style="width: 50px; border-radius: 50%;">
+                    <h3>Анна Морозова</h3>
+                    <p>Создала подборку топ-10 трендов веб-дизайна 2024 года. Нейроморфизм всё ещё в тренде! <a href="#">Читать статью</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="tools" class="tools">
+            <h2>Инструменты</h2>
+            <div class="tools-grid">
+                <a href="palette-generator.html" class="tool-card">
+                    <img src="https://img.icons8.com/color/70/000000/color-palette.png" alt="Генератор палитр" class="tool-icon">
+                    <h3>Генератор палитр</h3>
+                    <p>Создавайте гармоничные цветовые схемы для ваших проектов.</p>
+                </a>
+                <a href="effects-sandbox.html" class="tool-card">
+                    <img src="https://img.icons8.com/color/70/000000/magic.png" alt="Песочница эффектов" class="tool-icon">
+                    <h3>Песочница эффектов</h3>
+                    <p>Экспериментируйте с различными визуальными эффектами и анимациями.</p>
+                </a>
+                <a href="fonts.html" class="tool-card">
+                    <img src="https://img.icons8.com/color/70/000000/font.png" alt="Шрифты" class="tool-icon">
+                    <h3>Шрифты</h3>
+                    <p>Подберите идеальные шрифты для вашего следующего проекта.</p>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.theme-toggle').textContent = document.body.classList.contains('dark-mode') ? '🌙' : '☀️';
+        }
+
+        function toggleMenu() { document.getElementById('nav-menu').classList.toggle('active'); }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Добавление картинок в портфолио
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const files = e.target.files;
+            const grid = document.getElementById('portfolioGrid');
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    const card = document.createElement('div');
+                    card.classList.add('portfolio-card');
+                    card.innerHTML = `${img.outerHTML}<p>${file.name}</p>`;
+                    grid.appendChild(card);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Initialize Particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                move: { enable: true, speed: 2 }
+            }
+        });
+
+        // Add floating animation to cards
+        document.querySelectorAll('.gallery-card, .portfolio-card, .tool-card').forEach(card => {
+            card.classList.add('floating');
+        });
+    </script>
+</body>
+</html>

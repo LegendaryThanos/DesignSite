@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Песочница эффектов - WebCrafters Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Space+Grotesk&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #1A1D3E, #8B5CF6); color: #FFFFFF; padding: 20px; }
+        h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; text-align: center; margin-bottom: 40px; }
+        .sandbox { height: 400px; position: relative; overflow: hidden; border-radius: 15px; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; }
+        .parallax-layer { position: absolute; width: 100%; height: 100%; transition: transform 0.1s; }
+        .layer1 { background: url('https://via.placeholder.com/1920x400/8B5CF6') no-repeat center/cover; z-index: 1; }
+        .layer2 { background: url('https://via.placeholder.com/1920x400/FFF/8B5CF6') no-repeat center/cover; z-index: 2; opacity: 0.7; }
+        .back-btn { display: block; margin: 20px auto; padding: 10px 20px; background: #8B5CF6; border: none; border-radius: 50px; color: #FFFFFF; cursor: pointer; text-decoration: none; font-size: 1rem; }
+        .back-btn:hover { background: #A78BFA; }
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .effect-btn {
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .effect-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .morphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                20px 20px 60px rgba(0, 0, 0, 0.3),
+                -20px -20px 60px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .sandbox.rotate {
+            animation: rotate360 10s linear infinite;
+        }
+
+        @keyframes rotate360 {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .sandbox.scale {
+            animation: scaleUpAndDown 5s ease-in-out infinite;
+        }
+
+        @keyframes scaleUpAndDown {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .demo-element {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #8B5CF6, #6366F1);
+            border-radius: 20px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .sandbox.float .demo-element { animation: float 3s ease-in-out infinite; }
+        .sandbox.pulse .demo-element { animation: pulse 2s ease-in-out infinite; }
+        .sandbox.shake .demo-element { animation: shake 0.5s ease-in-out infinite; }
+    </style>
+</head>
+<body>
+    <h1>Песочница эффектов</h1>
+    <div class="controls">
+        <button class="effect-btn" onclick="toggleEffect('parallax')">Параллакс</button>
+        <button class="effect-btn" onclick="toggleEffect('morphism')">Морфизм</button>
+        <button class="effect-btn" onclick="toggleEffect('rotate')">Вращение</button>
+        <button class="effect-btn" onclick="toggleEffect('scale')">Масштабирование</button>
+        <button class="effect-btn" onclick="toggleEffect('float')">Парение</button>
+        <button class="effect-btn" onclick="toggleEffect('pulse')">Пульсация</button>
+        <button class="effect-btn" onclick="toggleEffect('shake')">Тряска</button>
+    </div>
+    <div class="sandbox" id="sandbox">
+        <div class="demo-element"></div>
+    </div>
+    <a href="index.html" class="back-btn" style="max-width: 200px; text-align: center;">Вернуться на главную</a>
+
+    <script>
+        const sandbox = document.getElementById('sandbox');
+        sandbox.addEventListener('mousemove', (e) => {
+            if (sandbox.classList.contains('parallax')) {
+                const x = e.clientX / window.innerWidth - 0.5;
+                const y = e.clientY / window.innerHeight - 0.5;
+                document.querySelector('.layer1').style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+                document.querySelector('.layer2').style.transform = `translate(${x * 40}px, ${y * 40}px)`;
+            }
+        });
+        
+        function toggleEffect(effect) {
+            const sandbox = document.getElementById('sandbox');
+            sandbox.className = 'sandbox'; // Reset classes
+            sandbox.classList.add(effect); // Add the selected effect
+
+            if (effect === 'morphism') {
+                sandbox.classList.add('morphism');
+            }
+        }
+    </script>
+</body>
+</html>
