@@ -27,7 +27,19 @@
         nav ul li a { color: #FFFFFF; text-decoration: none; font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; position: relative; transition: color 0.3s; }
         nav ul li a::after { content: ''; position: absolute; width: 0; height: 2px; background: #8B5CF6; bottom: -5px; left: 0; transition: width 0.3s; }
         nav ul li a:hover::after { width: 100%; }
-        .theme-toggle, .burger { background: none; border: none; color: #FFFFFF; font-size: 1.5rem; cursor: pointer; transition: transform 0.3s; }
+        .theme-toggle, .burger { 
+            background: none !important; /* Принудительно убираем фон */
+            border: none; 
+            color: #FFFFFF; 
+            font-size: 1.5rem; 
+            cursor: pointer; 
+            transition: transform 0.3s;
+            padding: 8px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .theme-toggle:hover { transform: rotate(360deg); }
         .burger { display: none; font-size: 2rem; }
         .hero {
@@ -63,8 +75,197 @@
         .learn-grid { display: flex; gap: 30px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
         .learn-card { background: rgba(255, 255, 255, 0.15); border-radius: 15px; padding: 20px; width: 300px; transition: all 0.3s; }
         .learn-card:hover { transform: scale(1.05); }
-        .community-feed { max-width: 800px; margin: 0 auto; }
-        .post { background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: left; }
+        .community-feed { 
+            max-width: 800px; 
+            margin: 0 auto;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 15px;
+            /* Стилизация скроллбара */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(139, 92, 246, 0.5) rgba(255, 255, 255, 0.1);
+        }
+
+        /* Стили для Webkit браузеров (Chrome, Safari) */
+        .community-feed::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .community-feed::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .community-feed::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 4px;
+        }
+
+        .community-feed::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.7);
+        }
+
+        .post { 
+            background: rgba(255, 255, 255, 0.15); /* Увеличена непрозрачность с 0.1 до 0.15 */
+            border-radius: 15px; 
+            padding: 15px;
+            margin-bottom: 15px; 
+            text-align: left;
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            gap: 15px;
+            align-items: start;
+            backdrop-filter: blur(10px); /* Добавлен эффект размытия фона */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .post-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-author {
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+        }
+
+        .post-time {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .post-text {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .post-text a {
+            color: #6D28D9; /* Более тёмный и контрастный фиолетовый для светлой темы */
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(109, 40, 217, 0.5);
+            padding-bottom: 1px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .post-text a:hover {
+            color: #7C3AED;
+            border-bottom-color: #7C3AED;
+        }
+
+        body.dark-mode .post-text a {
+            color: #B794F4; /* Оставляем прежний светлый цвет для тёмной темы */
+            border-bottom-color: rgba(183, 148, 244, 0.5);
+            font-weight: normal;
+        }
+
+        body.dark-mode .post-text a:hover {
+            color: #D6BCFA;
+            border-bottom-color: #D6BCFA;
+        }
+
+        #newPostForm {
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #newPostForm::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent);
+        }
+
+        #newPostText {
+            width: 100%;
+            min-height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #newPostText::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        #newPostText:focus {
+            outline: none;
+            border-color: rgba(139, 92, 246, 0.8);
+            background: rgba(139, 92, 246, 0.15);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2), 
+                        inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #newPostForm input[type="submit"] {
+            background: #8B5CF6;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #newPostForm input[type="submit"]:hover {
+            background: #7C3AED;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        body.dark-mode #newPostForm {
+            background: rgba(30, 30, 30, 0.95);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode #newPostText {
+            background: rgba(20, 20, 20, 0.8);
+            border-color: rgba(139, 92, 246, 0.2);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode #newPostText:focus {
+            border-color: rgba(139, 92, 246, 0.6);
+            background: rgba(30, 30, 30, 0.9);
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15),
+                        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
         .upload-btn { padding: 10px 20px; background: #8B5CF6; border: none; border-radius: 50px; color: #FFFFFF; cursor: pointer; margin-top: 20px; }
         @media (max-width: 768px) {
             nav ul { display: none; position: fixed; top: 60px; left: 0; width: 100%; background: rgba(26, 29, 62, 0.9); flex-direction: column; padding: 20px; }
@@ -167,6 +368,287 @@
             z-index: 1;
             background: transparent;
         }
+
+        body.dark-mode {
+            background: #121212;
+            color: #fff;
+        }
+        body.dark-mode nav {
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        body.dark-mode nav ul li a {
+            color: #fff;
+        }
+        body.dark-mode .hero {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        body.dark-mode .gallery-card,
+        body.dark-mode .portfolio-card,
+        body.dark-mode .tool-card,
+        body.dark-mode .learn-card,
+        body.dark-mode .post {
+            background: rgba(0, 0, 0, 0.75); /* Увеличена непрозрачность с 0.3 до 0.75 */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        body.dark-mode .cta-btn {
+            border-color: rgba(255, 255, 255, 0.6);
+            color: #fff;
+            background: rgba(139, 92, 246, 0.3);
+        }
+        body.dark-mode .cta-btn:hover {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+            background: rgba(139, 92, 246, 0.5);
+        }
+        body.dark-mode .cta-btn::before {
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, rgba(139, 92, 246, 0) 70%);
+        }
+        body.dark-mode .tool-card:hover {
+            background: rgba(100, 100, 100, 0.5);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        body.dark-mode input,
+        body.dark-mode textarea {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        body.dark-mode button,
+        body.dark-mode input[type="submit"] {
+            background: #333;
+            color: #fff;
+        }
+        body.dark-mode button:hover,
+        body.dark-mode input[type="submit"]:hover {
+            background: #555;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .gallery-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background: rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .gallery-card:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .gallery-overlay h3 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: #fff;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            margin: 5px 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tags span {
+            background: rgba(139, 92, 246, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #fff;
+        }
+
+        /* Dark mode styles for gallery */
+        body.dark-mode .gallery-card {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .gallery-overlay {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        body.dark-mode .tags span {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+.learn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.learn-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.learn-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+.learn-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.learn-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+.learn-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-end;
+}
+
+.learn-level {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.learn-level.beginner { background: rgba(34, 197, 94, 0.2); }
+.learn-level.intermediate { background: rgba(234, 179, 8, 0.2); }
+.learn-level.advanced { background: rgba(239, 68, 68, 0.2); }
+
+.learn-duration {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.learn-card h3 {
+    font-size: 1.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    margin: 0;
+}
+
+.learn-card p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.learn-topics {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.learn-topics li {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    padding-left: 20px;
+    position: relative;
+}
+
+.learn-topics li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #8B5CF6;
+}
+
+.learn-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.learn-btn {
+    padding: 10px 20px;
+    background: #8B5CF6;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.learn-btn:hover {
+    background: #7C3AED;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+}
+
+.learn-students {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Dark mode styles */
+body.dark-mode .learn-card {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .learn-level.beginner { background: rgba(34, 197, 94, 0.1); }
+body.dark-mode .learn-level.intermediate { background: rgba(234, 179, 8, 0.1); }
+body.dark-mode .learn-level.advanced { background: rgba(239, 68, 68, 0.1); }
+
     </style>
 </head>
 <body>
@@ -194,18 +676,149 @@
         <section id="gallery" class="gallery">
             <h2>Галерея вдохновения</h2>
             <div class="gallery-grid">
-                <div class="gallery-card"><img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Minimal Landing"><p>Minimal Landing</p></div>
-                <div class="gallery-card"><img src="https://images.unsplash.com/photo-1505904267569-2c9e4cb421bd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Neon Design"><p>Neon Design</p></div>
-                <div class="gallery-card"><img src="https://images.unsplash.com/photo-1563983424428-96451883839c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Brutalist Site"><p>Brutalist Site</p></div>
+                <div class="gallery-card">
+                    <img src="https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?auto=format&fit=crop&w=800&q=80" alt="Dark Theme Dashboard">
+                    <div class="gallery-overlay">
+                        <h3>Dark Theme Dashboard</h3>
+                        <p>Современный интерфейс с тёмной темой и неоморфизмом</p>
+                        <div class="tags">
+                            <span>#dashboard</span>
+                            <span>#dark-theme</span>
+                            <span>#neomorphism</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" alt="Minimal Portfolio">
+                    <div class="gallery-overlay">
+                        <h3>Minimal Portfolio</h3>
+                        <p>Минималистичный дизайн портфолио с акцентом на контент</p>
+                        <div class="tags">
+                            <span>#minimal</span>
+                            <span>#portfolio</span>
+                            <span>#white-space</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <img src="https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&w=800&q=80" alt="Gradient App">
+                    <div class="gallery-overlay">
+                        <h3>Gradient App</h3>
+                        <p>Яркий интерфейс приложения с градиентами</p>
+                        <div class="tags">
+                            <span>#gradients</span>
+                            <span>#bright</span>
+                            <span>#modern</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Analytics Dashboard">
+                    <div class="gallery-overlay">
+                        <h3>Analytics Dashboard</h3>
+                        <p>Информативная панель с графиками и диаграммами</p>
+                        <div class="tags">
+                            <span>#analytics</span>
+                            <span>#data</span>
+                            <span>#charts</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <img src="https://images.unsplash.com/photo-1545665277-5937489579f2?auto=format&fit=crop&w=800&q=80" alt="E-commerce">
+                    <div class="gallery-overlay">
+                        <h3>E-commerce Design</h3>
+                        <p>Современный интерфейс онлайн-магазина</p>
+                        <div class="tags">
+                            <span>#ecommerce</span>
+                            <span>#shop</span>
+                            <span>#ui</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gallery-card">
+                    <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=800&q=80" alt="Mobile App">
+                    <div class="gallery-overlay">
+                        <h3>Mobile App</h3>
+                        <p>Адаптивный дизайн мобильного приложения</p>
+                        <div class="tags">
+                            <span>#mobile</span>
+                            <span>#app</span>
+                            <span>#responsive</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section id="learn" class="learn">
             <h2>Обучение</h2>
             <div class="learn-grid">
-                <div class="learn-card"><h3>Курс: Основы UI/UX</h3><p>Изучите принципы дизайна интерфейсов за 4 недели.</p></div>
-                <div class="learn-card"><h3>Туториал: Анимации CSS</h3><p>Создавайте плавные эффекты без JavaScript.</p></div>
-                <div class="learn-card"><h3>Статья: Тренды 2025</h3><p>Что ждёт веб-дизайн в будущем?</p></div>
+                <div class="learn-card">
+                    <div class="learn-card-header">
+                        <div class="learn-icon">📚</div>
+                        <div class="learn-meta">
+                            <span class="learn-level beginner">Начальный</span>
+                            <span class="learn-duration">4 недели</span>
+                        </div>
+                    </div>
+                    <h3>Основы UI/UX дизайна</h3>
+                    <p>Комплексный курс по основам проектирования пользовательских интерфейсов</p>
+                    <ul class="learn-topics">
+                        <li>Принципы UI/UX</li>
+                        <li>Работа с Figma</li>
+                        <li>Прототипирование</li>
+                        <li>Тестирование</li>
+                    </ul>
+                    <div class="learn-footer">
+                        <button class="learn-btn">Начать обучение</button>
+                        <span class="learn-students">125 студентов</span>
+                    </div>
+                </div>
+
+                <div class="learn-card">
+                    <div class="learn-card-header">
+                        <div class="learn-icon">🎨</div>
+                        <div class="learn-meta">
+                            <span class="learn-level intermediate">Средний</span>
+                            <span class="learn-duration">2 недели</span>
+                        </div>
+                    </div>
+                    <h3>CSS Анимации</h3>
+                    <p>Продвинутый курс по созданию современных веб-анимаций</p>
+                    <ul class="learn-topics">
+                        <li>Keyframes</li>
+                        <li>Transform & Transition</li>
+                        <li>CSS Variables</li>
+                        <li>Performance</li>
+                    </ul>
+                    <div class="learn-footer">
+                        <button class="learn-btn">Начать обучение</button>
+                        <span class="learn-students">89 студентов</span>
+                    </div>
+                </div>
+
+                <div class="learn-card">
+                    <div class="learn-card-header">
+                        <div class="learn-icon">🚀</div>
+                        <div class="learn-meta">
+                            <span class="learn-level advanced">Продвинутый</span>
+                            <span class="learn-duration">6 недель</span>
+                        </div>
+                    </div>
+                    <h3>Современный Frontend</h3>
+                    <p>Изучите современные технологии веб-разработки</p>
+                    <ul class="learn-topics">
+                        <li>React + TypeScript</li>
+                        <li>Next.js</li>
+                        <li>Tailwind CSS</li>
+                        <li>API Integration</li>
+                    </ul>
+                    <div class="learn-footer">
+                        <button class="learn-btn">Начать обучение</button>
+                        <span class="learn-students">67 студентов</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -219,40 +832,139 @@
 
         <section id="community" class="community">
             <h2>Сообщество</h2>
-            <div class="community-feed">
+            <div class="community-feed" id="communityFeed">
                 <div class="post">
-                    <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Avatar" style="width: 50px; border-radius: 50%;">
-                    <h3>Мария Волкова</h3>
-                    <p>Только что завершила проект по редизайну сайта для местной кофейни! Использовала новые принципы минимализма и нейроморфизма. Что думаете? <a href="#">Посмотреть на Behance</a></p>
+                    <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Avatar" class="post-avatar">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <h3 class="post-author">Мария Волкова</h3>
+                            <span class="post-time">2 минуты назад</span>
+                        </div>
+                        <p class="post-text">Только что завершила проект по редизайну сайта для местной кофейни! Использовала новые принципы минимализма и нейроморфизма. Что думаете? <a href="#">Посмотреть на Behance</a></p>
+                    </div>
                 </div>
                 <div class="post">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar" style="width: 50px; border-radius: 50%;">
-                    <h3>Дмитрий Соколов</h3>
-                    <p>Ребята, кто работал с Figma Auto Layout? Поделитесь опытом использования для адаптивного дизайна.</p>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar" class="post-avatar">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <h3 class="post-author">Дмитрий Соколов</h3>
+                            <span class="post-time">15 минут назад</span>
+                        </div>
+                        <p class="post-text">Ребята, кто работал с Figma Auto Layout? Поделитесь опытом использования для адаптивного дизайна.</p>
+                    </div>
                 </div>
                 <div class="post">
-                    <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Avatar" style="width: 50px; border-radius: 50%;">
-                    <h3>Анна Морозова</h3>
-                    <p>Создала подборку топ-10 трендов веб-дизайна 2024 года. Нейроморфизм всё ещё в тренде! <a href="#">Читать статью</a></p>
+                    <img src="https://randomuser.me/api/portraits/women/55.jpg" alt="Avatar" class="post-avatar">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <h3 class="post-author">Екатерина Андреева</h3>
+                            <span class="post-time">27 минут назад</span>
+                        </div>
+                        <p class="post-text">Поделюсь интересной находкой - библиотека GSAP для анимаций. Кто использовал? Какие впечатления?</p>
+                    </div>
+                </div>
+                <div class="post">
+                    <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Avatar" class="post-avatar">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <h3 class="post-author">Артем Васильев</h3>
+                            <span class="post-time">42 минуты назад</span>
+                        </div>
+                        <p class="post-text">Закончил курс по UI/UX на Coursera. Могу порекомендовать, очень структурированная подача материала.</p>
+                    </div>
+                </div>
+                <div class="post">
+                    <img src="https://randomuser.me/api/portraits/women/89.jpg" alt="Avatar" class="post-avatar">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <h3 class="post-author">Ольга Козлова</h3>
+                            <span class="post-time">1 час назад</span>
+                        </div>
+                        <p class="post-text">Кто-нибудь работал с CSS Grid Areas? Пытаюсь разобраться с именованными областями.</p>
+                    </div>
+                </div>
+                <div class="post">
+                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Avatar" class="post-avatar">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <h3 class="post-author">Игорь Петренко</h3>
+                            <span class="post-time">1 час назад</span>
+                        </div>
+                        <p class="post-text">Посмотрите мой новый проект - лендинг для стартапа. Использовал React + Tailwind CSS. <a href="#">Ссылка на GitHub</a></p>
+                    </div>
+                </div>
+                <div class="post">
+                    <img src="https://randomuser.me/api/portraits/women/15.jpg" alt="Avatar" class="post-avatar">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <h3 class="post-author">Алина Сергеева</h3>
+                            <span class="post-time">2 часа назад</span>
+                        </div>
+                        <p class="post-text">Собрала подборку топ-5 Figma плагинов для работы с цветом. Кому интересно - <a href="#">смотреть тут</a></p>
+                    </div>
+                </div>
+                <div class="post">
+                    <img src="https://randomuser.me/api/portraits/men/91.jpg" alt="Avatar" class="post-avatar">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <h3 class="post-author">Максим Иванов</h3>
+                            <span class="post-time">2 часа назад</span>
+                        </div>
+                        <p class="post-text">Как вы тестируете адаптивность сайтов? Какие инструменты используете кроме DevTools?</p>
+                    </div>
+                </div>
+                <div class="post">
+                    <img src="https://randomuser.me/api/portraits/women/76.jpg" alt="Avatar" class="post-avatar">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <h3 class="post-author">Наталья Романова</h3>
+                            <span class="post-time">3 часа назад</span>
+                        </div>
+                        <p class="post-text">Провожу бесплатный вебинар по основам веб-анимаций в эту субботу. Записаться можно тут: <a href="#">регистрация</a></p>
+                    </div>
+                </div>
+                <div class="post">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Avatar" class="post-avatar">
+                    <div class="post-content">
+                        <div class="post-header">
+                            <h3 class="post-author">Андрей Смирнов</h3>
+                            <span class="post-time">3 часа назад</span>
+                        </div>
+                        <p class="post-text">Ищу напарника для создания open source проекта. UI библиотека на React + TypeScript. Пишите в личку.</p>
+                    </div>
                 </div>
             </div>
+
+            <form id="newPostForm">
+                <textarea id="newPostText" placeholder="Что нового?" required></textarea>
+                <input type="submit" value="Опубликовать">
+            </form>
         </section>
 
         <section id="tools" class="tools">
             <h2>Инструменты</h2>
             <div class="tools-grid">
                 <a href="palette-generator.html" class="tool-card">
-                    <img src="https://img.icons8.com/color/70/000000/color-palette.png" alt="Генератор палитр" class="tool-icon">
+                    <svg class="tool-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C12.83 22 13.5 21.33 13.5 20.5C13.5 20.09 13.35 19.72 13.1 19.45C12.87 19.18 12.72 18.81 12.72 18.4C12.72 17.57 13.39 16.9 14.22 16.9H16C19.31 16.9 22 14.21 22 10.9C22 5.98 17.52 2 12 2ZM5.5 12C4.67 12 4 11.33 4 10.5C4 9.67 4.67 9 5.5 9C6.33 9 7 9.67 7 10.5C7 11.33 6.33 12 5.5 12ZM8.5 8C7.67 8 7 7.33 7 6.5C7 5.67 7.67 5 8.5 5C9.33 5 10 5.67 10 6.5C10 7.33 9.33 8 8.5 8ZM15.5 8C14.67 8 14 7.33 14 6.5C14 5.67 14.67 5 15.5 5C16.33 5 17 5.67 17 6.5C17 7.33 16.33 8 15.5 8ZM18.5 12C17.67 12 17 11.33 17 10.5C17 9.67 17.67 9 18.5 9C19.33 9 20 9.67 20 10.5C20 11.33 19.33 12 18.5 12Z" fill="#fff"/>
+                    </svg>
                     <h3>Генератор палитр</h3>
                     <p>Создавайте гармоничные цветовые схемы для ваших проектов.</p>
                 </a>
                 <a href="effects-sandbox.html" class="tool-card">
-                    <img src="https://img.icons8.com/color/70/000000/magic.png" alt="Песочница эффектов" class="tool-icon">
+                    <svg class="tool-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 4C7 2.89543 7.89543 2 9 2H15C16.1046 2 17 2.89543 17 4V6H7V4Z" fill="#fff"/>
+                        <path d="M5 8C3.89543 8 3 8.89543 3 10V18C3 19.1046 3.89543 20 5 20H19C20.1046 20 21 19.1046 21 18V10C21 8.89543 20.1046 8 19 8H5Z" fill="#fff"/>
+                        <path d="M12 10L16 16H8L12 10Z" fill="#8B5CF6"/>
+                    </svg>
                     <h3>Песочница эффектов</h3>
                     <p>Экспериментируйте с различными визуальными эффектами и анимациями.</p>
                 </a>
                 <a href="fonts.html" class="tool-card">
-                    <img src="https://img.icons8.com/color/70/000000/font.png" alt="Шрифты" class="tool-icon">
+                    <svg class="tool-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 4V7H14V19H17V7H22V4H9Z" fill="#fff"/>
+                        <path d="M5 12V14H9V19H11V14H15V12H5Z" fill="#fff" opacity="0.7"/>
+                    </svg>
                     <h3>Шрифты</h3>
                     <p>Подберите идеальные шрифты для вашего следующего проекта.</p>
                 </a>
@@ -263,8 +975,19 @@
     <script>
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
-            document.querySelector('.theme-toggle').textContent = document.body.classList.contains('dark-mode') ? '🌙' : '☀️';
+            const isDark = document.body.classList.contains('dark-mode');
+            document.querySelector('.theme-toggle').textContent = isDark ? '🌙' : '☀️';
+            // Сохраняем состояние темы
+            localStorage.setItem('darkMode', isDark);
         }
+
+        // Проверяем и применяем сохранённую тему при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-toggle').textContent = '🌙';
+            }
+        });
 
         function toggleMenu() { document.getElementById('nav-menu').classList.toggle('active'); }
 
@@ -308,6 +1031,33 @@
         // Add floating animation to cards
         document.querySelectorAll('.gallery-card, .portfolio-card, .tool-card').forEach(card => {
             card.classList.add('floating');
+        });
+
+        // Community Post Submission
+        document.getElementById('newPostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const postText = document.getElementById('newPostText').value;
+            const communityFeed = document.getElementById('communityFeed');
+
+            // Create new post element with updated structure
+            const newPost = document.createElement('div');
+            newPost.classList.add('post');
+            newPost.innerHTML = `
+                <img src="https://randomuser.me/api/portraits/lego/6.jpg" alt="Avatar" class="post-avatar">
+                <div class="post-content">
+                    <div class="post-header">
+                        <h3 class="post-author">Аноним</h3>
+                        <span class="post-time">Только что</span>
+                    </div>
+                    <p class="post-text">${postText}</p>
+                </div>
+            `;
+
+            // Add new post to the top of the feed
+            communityFeed.insertBefore(newPost, communityFeed.firstChild);
+
+            // Clear the textarea
+            document.getElementById('newPostText').value = '';
         });
     </script>
 </body>

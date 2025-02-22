@@ -3,65 +3,617 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Шрифты - WebCrafters Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter&family=Space+Grotesk&family=Roboto&family=Montserrat&family=Oswald&family=Lato&display=swap" rel="stylesheet">
+    <title>Коллекция шрифтов - WebCrafters Hub</title>
+    <!-- Обновляем коллекцию шрифтов -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Oswald:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Quicksand:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Pacifico&family=Abril+Fatface&family=Archivo+Black&family=Bebas+Neue&family=Comfortaa:wght@300;400;500;600;700&family=Permanent+Marker&family=Russo+One&family=Righteous&family=Satisfy&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #1A1D3E, #8B5CF6); color: #FFFFFF; padding: 20px; }
-        h1 { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; text-align: center; margin-bottom: 40px; }
-        .font-list { max-width: 800px; margin: 0 auto; }
-        .font-item { background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; cursor: pointer; }
-        .font-item p { font-size: 1.5rem; }
-        .back-btn { display: block; margin: 20px auto; padding: 10px 20px; background: #8B5CF6; border: none; border-radius: 50px; color: #FFFFFF; cursor: pointer; text-decoration: none; font-size: 1rem; }
-        .back-btn:hover { background: #A78BFA; }
-        .font-controls { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px; background: rgba(0, 0, 0, 0.7); display: flex; gap: 10px; transform: translateY(100%); transition: transform 0.3s; }
-        .font-item:hover .font-controls { transform: translateY(0); }
-        .size-slider { width: 100%; margin: 10px 0; }
-        .font-style-controls { display: flex; gap: 5px; }
-        .font-style-controls button { background: none; border: none; color: white; cursor: pointer; font-size: 1em; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #1A1D3E, #8B5CF6) fixed; /* Добавляем fixed */
+            color: #FFFFFF; 
+            padding: 20px;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            contain: paint layout; /* Улучшаем содержимое */
+            isolation: isolate; /* Создаем новый контекст наложения */
+        }
+
+        h1 { 
+            font-family: 'Space Grotesk', sans-serif; 
+            font-size: 2.5rem; 
+            text-align: center; 
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #8B5CF6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #8B5CF6;
+            border-color: #A78BFA;
+        }
+
+        .font-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            contain: content; /* Изменяем с paint на content */
+            position: relative; /* Добавляем позиционирование */
+            z-index: 1; /* Обеспечиваем правильный порядок слоев */
+        }
+
+        .font-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 250px;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 15px;
+        }
+
+        .font-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .font-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .font-sample {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            min-height: 100px;
+            word-wrap: break-word;
+            padding-right: 40px; /* Отступ для кнопки копирования */
+            line-height: 1.2;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            position: relative;
+            margin: 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            min-height: 120px;
+        }
+
+        .font-info {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .font-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .control-group label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .style-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .style-btn {
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .style-btn.active {
+            background: #8B5CF6;
+            border-color: #A78BFA;
+        }
+
+        .font-size-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .size-value {
+            min-width: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .weights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .weight-btn {
+            padding: 6px 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .weight-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .weight-btn.active {
+            background: #8B5CF6;
+            border-color: #A78BFA;
+        }
+
+        .copy-btn {
+            position: static; /* Изменено с absolute на static */
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        .copy-btn:hover {
+            background: rgba(139, 92, 246, 0.8);
+        }
+
+        .back-btn { 
+            display: inline-block;
+            margin: 20px auto;
+            padding: 12px 25px;
+            background: #8B5CF6;
+            border: none;
+            border-radius: 50px;
+            color: #FFFFFF;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .back-btn:hover { 
+            background: #A78BFA;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .fonts-container {
+            text-align: center;
+        }
+
+        .font-card {
+            position: relative;
+        }
+
+        .style-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+
+        .style-btn:hover .style-tooltip {
+            opacity: 1;
+        }
+
+        /* Добавляем стили для тёмной темы */
+        body.dark-mode {
+            background: #121212;
+        }
+
+        body.dark-mode .controls,
+        body.dark-mode .font-card {
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .search-box,
+        body.dark-mode .filter-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .font-sample {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .font-controls {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Унифицированные стили для кнопки переключения темы */
+        .theme-toggle { 
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none !important;
+            border: none;
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            padding: 8px;
+            line-height: 1;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(360deg);
+        }
     </style>
 </head>
 <body>
-    <h1>Коллекция современных шрифтов</h1>
-    <div class="font-list">
-        <div class="font-item"><p style="font-family: 'Space Grotesk', sans-serif;">Space Grotesk - Футуристичный стиль</p></div>
-        <div class="font-item"><p style="font-family: 'Roboto', sans-serif;">Roboto - Чистый и универсальный</p></div>
-        <div class="font-item"><p style="font-family: 'Montserrat', sans-serif;">Montserrat - Стильный и современный</p></div>
-        <div class="font-item"><p style="font-family: 'Oswald', sans-serif;">Oswald - Заголовочный шрифт</p></div>
-        <div class="font-item"><p style="font-family: 'Lato', sans-serif;">Lato - Легкий и читаемый</p></div>
+    <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
+    <div class="container">
+        <h1>Коллекция шрифтов</h1>
+        
+        <div class="controls">
+            <input type="text" class="search-box" placeholder="Поиск шрифтов..." id="searchInput">
+            <div class="filters">
+                <button class="filter-btn active" data-category="all">Все</button>
+                <button class="filter-btn" data-category="sans-serif">Sans-serif</button>
+                <button class="filter-btn" data-category="serif">Serif</button>
+                <button class="filter-btn" data-category="display">Display</button>
+                <button class="filter-btn" data-category="handwriting">Handwriting</button>
+            </div>
+        </div>
+
+        <div class="font-grid" id="fontGrid">
+            <!-- Шрифты будут добавлены через JavaScript -->
+        </div>
+
+        <div class="fonts-container">
+            <a href="index.html" class="back-btn">Вернуться на главную</a>
+        </div>
     </div>
-    <a href="index.html" class="back-btn" style="max-width: 200px; text-align: center;">Вернуться на главную</a>
+
     <script>
-        function adjustFontSize(element, size) {
-            element.style.fontSize = size + 'px';
-        }
+        const fonts = [
+            { name: 'Inter', category: 'sans-serif', weights: [100, 200, 300, 400, 500, 600, 700, 800, 900] },
+            { name: 'Space Grotesk', category: 'sans-serif', weights: [300, 400, 500, 600, 700] },
+            { name: 'Roboto', category: 'sans-serif', weights: [100, 300, 400, 500, 700, 900] },
+            { name: 'Montserrat', category: 'sans-serif', weights: [100, 200, 300, 400, 500, 600, 700, 800, 900] },
+            { name: 'Oswald', category: 'sans-serif', weights: [200, 300, 400, 500, 600, 700] },
+            { name: 'Playfair Display', category: 'serif', weights: [400, 500, 600, 700, 800, 900] },
+            { name: 'Lato', category: 'sans-serif', weights: [100, 300, 400, 700, 900] },
+            { name: 'Quicksand', category: 'sans-serif', weights: [300, 400, 500, 600, 700] },
+            { name: 'Dancing Script', category: 'handwriting', weights: [400, 500, 600, 700] },
+            { name: 'Pacifico', category: 'handwriting', weights: [400] },
+            // Добавляем новые шрифты
+            { name: 'Abril Fatface', category: 'display', weights: [400] },
+            { name: 'Archivo Black', category: 'display', weights: [400] },
+            { name: 'Bebas Neue', category: 'display', weights: [400] },
+            { name: 'Russo One', category: 'display', weights: [400] },
+            { name: 'Righteous', category: 'display', weights: [400] },
+            { name: 'Comfortaa', category: 'display', weights: [300, 400, 500, 600, 700] },
+            { name: 'Permanent Marker', category: 'handwriting', weights: [400] },
+            { name: 'Satisfy', category: 'handwriting', weights: [400] },
+            { name: 'Great Vibes', category: 'handwriting', weights: [400] }
+        ];
 
-        function setFontStyle(element, style) {
-            switch (style) {
-                case 'bold':
-                    element.style.fontWeight = element.style.fontWeight === 'bold' ? 'normal' : 'bold';
-                    break;
-                case 'italic':
-                    element.style.fontStyle = element.style.fontStyle === 'italic' ? 'normal' : 'italic';
-                    break;
-                case 'underline':
-                    element.style.textDecoration = element.style.textDecoration === 'underline' ? 'none' : 'underline';
-                    break;
-            }
-        }
+        function createFontCard(font) {
+            const card = document.createElement('div');
+            card.className = 'font-card';
+            card.setAttribute('data-category', font.category);
 
-        document.querySelectorAll('.font-item').forEach(item => {
+            // Создаем header с информацией о шрифте и кнопкой копирования
+            const header = document.createElement('div');
+            header.className = 'font-header';
+            
+            const info = document.createElement('div');
+            info.className = 'font-info';
+            info.innerHTML = `
+                <strong>${font.name}</strong><br>
+                Категория: ${font.category}<br>
+                Доступные начертания: ${font.weights.length}
+            `;
+
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.textContent = 'Копировать CSS';
+            copyBtn.onclick = () => {
+                const styles = [];
+                styles.push(`font-family: '${font.name}', ${font.category};`);
+                
+                const fontSize = sample.style.fontSize;
+                if (fontSize) styles.push(`font-size: ${fontSize};`);
+                
+                const fontWeight = sample.style.fontWeight;
+                if (fontWeight) styles.push(`font-weight: ${fontWeight};`);
+                
+                if (sample.style.fontStyle === 'italic') styles.push('font-style: italic;');
+                if (sample.style.textDecoration === 'underline') styles.push('text-decoration: underline;');
+                
+                const css = styles.join('\n');
+                navigator.clipboard.writeText(css);
+                copyBtn.textContent = 'Скопировано!';
+                setTimeout(() => copyBtn.textContent = 'Копировать CSS', 2000);
+            };
+
+            header.appendChild(info);
+            header.appendChild(copyBtn);
+
+            const sample = document.createElement('div');
+            sample.className = 'font-sample';
+            sample.style.fontFamily = font.name;
+            sample.textContent = 'Aa Бб Вв 123';
+
             const controls = document.createElement('div');
             controls.className = 'font-controls';
-            controls.innerHTML = `
-                <input type="range" min="16" max="72" value="24" class="size-slider"
-                       onInput="adjustFontSize(this.parentElement.previousElementSibling, this.value)">
-                <div class="font-style-controls">
-                    <button onclick="setFontStyle(this.parentElement.parentElement.previousElementSibling, 'bold')"><b>B</b></button>
-                    <button onclick="setFontStyle(this.parentElement.parentElement.previousElementSibling, 'italic')"><i>I</i></button>
-                    <button onclick="setFontStyle(this.parentElement.parentElement.previousElementSibling, 'underline')"><u>U</u></button>
+
+            // Группа управления размером
+            const sizeGroup = document.createElement('div');
+            sizeGroup.className = 'control-group';
+            sizeGroup.innerHTML = `
+                <label>Размер шрифта</label>
+                <div class="font-size-control">
+                    <input type="range" min="12" max="72" value="32" class="size-slider"
+                        onInput="updateFontSize(this)">
+                    <span class="size-value">32px</span>
                 </div>
             `;
-            item.appendChild(controls);
+
+            // Группа управления стилями
+            const styleGroup = document.createElement('div');
+            styleGroup.className = 'control-group';
+            styleGroup.innerHTML = `
+                <label>Стили</label>
+                <div class="style-buttons">
+                    <button class="style-btn" data-style="bold" title="Жирный">
+                        <strong>B</strong>
+                        <span class="style-tooltip">Жирный текст</span>
+                    </button>
+                    <button class="style-btn" data-style="italic" title="Курсив">
+                        <em>I</em>
+                        <span class="style-tooltip">Курсив</span>
+                    </button>
+                    <button class="style-btn" data-style="underline" title="Подчёркнутый">
+                        <u>U</u>
+                        <span class="style-tooltip">Подчёркнутый</span>
+                    </button>
+                </div>
+            `;
+
+            // Группа управления весом шрифта
+            if (font.weights.length > 1) {
+                const weightGroup = document.createElement('div');
+                weightGroup.className = 'control-group';
+                weightGroup.innerHTML = `
+                    <label>Насыщенность</label>
+                    <div class="weights-grid">
+                        ${font.weights.map(weight => `
+                            <button class="weight-btn" onclick="updateFontWeight(this, ${weight})">
+                                ${weight}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+                controls.appendChild(weightGroup);
+
+                // Устанавливаем начальную насыщенность
+                const defaultWeight = font.weights.includes(400) ? 400 : font.weights[0];
+                const defaultWeightBtn = weightGroup.querySelector(`.weight-btn[onclick*="${defaultWeight}"]`);
+                if (defaultWeightBtn) {
+                    setTimeout(() => updateFontWeight(defaultWeightBtn, defaultWeight), 0);
+                }
+            }
+
+            controls.appendChild(sizeGroup);
+            controls.appendChild(styleGroup);
+
+            // Добавляем обработчики событий для кнопок стилей
+            controls.querySelectorAll('.style-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const style = btn.dataset.style;
+                    btn.classList.toggle('active');
+
+                    const sample = card.querySelector('.font-sample');
+                    const weightButtons = card.querySelectorAll('.weight-btn');
+                    const activeWeight = card.querySelector('.weight-btn.active');
+
+                    switch (style) {
+                        case 'bold':
+                            if (btn.classList.contains('active')) {
+                                sample.style.fontWeight = 'bold';
+                                // Убираем активный класс с кнопок насыщенности
+                                weightButtons.forEach(wb => wb.classList.remove('active'));
+                            } else {
+                                // Возвращаем предыдущую насыщенность или normal
+                                if (activeWeight) {
+                                    sample.style.fontWeight = activeWeight.textContent;
+                                } else {
+                                    sample.style.fontWeight = '400';
+                                }
+                            }
+                            break;
+                        case 'italic':
+                            sample.style.fontStyle = btn.classList.contains('active') ? 'italic' : 'normal';
+                            break;
+                        case 'underline':
+                            sample.style.textDecoration = btn.classList.contains('active') ? 'underline' : 'none';
+                            break;
+                    }
+                });
+            });
+
+            card.appendChild(header);
+            card.appendChild(sample);
+            card.appendChild(controls);
+
+            return card;
+        }
+
+        function updateFontSize(slider) {
+            const sample = slider.closest('.font-card').querySelector('.font-sample');
+            const sizeValue = slider.closest('.font-size-control').querySelector('.size-value');
+            sample.style.fontSize = `${slider.value}px`;
+            sizeValue.textContent = `${slider.value}px`;
+        }
+
+        // Добавляем новую функцию для обработки изменения веса шрифта
+        function updateFontWeight(button, weight) {
+            const card = button.closest('.font-card');
+            const sample = card.querySelector('.font-sample');
+            const boldButton = card.querySelector('.style-btn[data-style="bold"]');
+            
+            // Сбрасываем жирное начертание, если оно активно
+            if (boldButton.classList.contains('active')) {
+                boldButton.classList.remove('active');
+            }
+            
+            // Убираем активный класс у всех кнопок весов
+            card.querySelectorAll('.weight-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Добавляем активный класс нажатой кнопке
+            button.classList.add('active');
+            
+            // Применяем вес шрифта
+            sample.style.fontWeight = weight;
+        }
+
+        function initializeFonts() {
+            const grid = document.getElementById('fontGrid');
+            fonts.forEach(font => {
+                grid.appendChild(createFontCard(font));
+            });
+        }
+
+        // Фильтрация шрифтов
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const category = btn.dataset.category;
+                
+                document.querySelectorAll('.font-card').forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Поиск шрифтов
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.font-card').forEach(card => {
+                const fontName = card.querySelector('.font-info strong').textContent.toLowerCase();
+                if (fontName.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Инициализация
+        initializeFonts();
+
+        // Добавляем в конец скрипта
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.querySelector('.theme-toggle').textContent = isDark ? '🌙' : '☀️';
+            localStorage.setItem('darkMode', isDark);
+        }
+
+        // Проверяем и применяем сохранённую тему при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-toggle').textContent = '🌙';
+            }
         });
     </script>
 </body>
